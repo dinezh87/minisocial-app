@@ -38,6 +38,20 @@ const db = new Pool({
 
 async function ensureUserProfileColumns() {
   await db.query(`
+    CREATE TABLE IF NOT EXISTS users (
+      id SERIAL PRIMARY KEY,
+      email VARCHAR(255) UNIQUE NOT NULL,
+      password VARCHAR(255) NOT NULL,
+      username VARCHAR(255) UNIQUE NOT NULL,
+      sex VARCHAR(50),
+      dob DATE,
+      profile_pic TEXT,
+      birthplace VARCHAR(255),
+      current_city VARCHAR(255)
+    )
+  `)
+
+  await db.query(`
     ALTER TABLE users
     ADD COLUMN IF NOT EXISTS birthplace VARCHAR(255),
     ADD COLUMN IF NOT EXISTS current_city VARCHAR(255)
