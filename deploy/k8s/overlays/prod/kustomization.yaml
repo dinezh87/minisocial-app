@@ -7,3 +7,4 @@ resources:
 patches:
   - path: patch-configmaps.yaml
   - path: patch-ingress.yaml
+  - path: patch-serviceaccount.yaml

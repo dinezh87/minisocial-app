@@ -51,3 +51,11 @@ output "aws_load_balancer_controller_role_arn" {
 output "jenkins_role_arn" {
   value = module.jenkins_irsa_role.iam_role_arn
 }
+
+output "media_bucket_name" {
+  value = aws_s3_bucket.media.bucket
+}
+
+output "media_service_role_arn" {
+  value = module.media_service_irsa_role.iam_role_arn
+}

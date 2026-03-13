@@ -17,5 +17,5 @@ assets for MiniSocial.
 - EKS worker nodes should support ARM64 images
 - PostgreSQL will move to Amazon RDS first
 - MongoDB, MySQL, and Redis will start as StatefulSets in the cluster
-- `media-service` will initially stay on persistent volume storage before a
-  later S3 migration
+- `media-service` uses S3 in staging and production, while local development
+  can still use filesystem storage

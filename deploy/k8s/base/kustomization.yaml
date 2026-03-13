@@ -5,9 +5,9 @@ namespace: minisocial
 
 resources:
   - namespace.yaml
+  - serviceaccounts.yaml
   - configmaps.yaml
   - secrets.yaml
-  - storage.yaml
   - data-services.yaml
   - app-services.yaml
   - ingress.yaml

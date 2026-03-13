@@ -43,6 +43,7 @@ module "platform" {
   deploy_mysql_incluster   = var.deploy_mysql_incluster
   deploy_redis_incluster   = var.deploy_redis_incluster
   media_storage_mode       = var.media_storage_mode
+  media_bucket_name        = var.media_bucket_name
 }
 
 variable "region" { type = string }
@@ -81,3 +82,7 @@ variable "deploy_mongodb_incluster" { type = bool }
 variable "deploy_mysql_incluster" { type = bool }
 variable "deploy_redis_incluster" { type = bool }
 variable "media_storage_mode" { type = string }
+variable "media_bucket_name" {
+  type    = string
+  default = null
+}

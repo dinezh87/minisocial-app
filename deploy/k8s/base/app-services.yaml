@@ -110,6 +110,7 @@ spec:
       labels:
         app: media-service
     spec:
+      serviceAccountName: media-service
       containers:
         - name: media-service
           image: media-service:latest
@@ -119,13 +120,6 @@ spec:
           envFrom:
             - configMapRef:
                 name: media-service-config
-          volumeMounts:
-            - name: media-storage
-              mountPath: /app/media
-      volumes:
-        - name: media-storage
-          persistentVolumeClaim:
-            claimName: media-storage
 ---
 apiVersion: v1
 kind: Service

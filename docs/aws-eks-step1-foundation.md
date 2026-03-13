@@ -68,19 +68,15 @@ Reasoning:
 
 ## Media Storage Decision
 
-Current state:
+Current state in local development:
 
 - `media-service` uses local storage
 
-For EKS phase 1:
+For EKS staging and production:
 
-- run `media-service` as a single replica
-- mount persistent storage with a PVC
-- accept that local filesystem semantics do not scale horizontally
-
-Recommended later improvement:
-
-- move media to S3 and make `media-service` stateless
+- `media-service` uses S3
+- the pod authenticates through IRSA
+- the service becomes stateless from a storage perspective
 
 ## Git Repository Strategy
 

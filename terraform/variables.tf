@@ -165,5 +165,11 @@ variable "deploy_redis_incluster" {
 variable "media_storage_mode" {
   description = "Phase-1 media storage mode."
   type        = string
-  default     = "pvc"
+  default     = "s3"
+}
+
+variable "media_bucket_name" {
+  description = "S3 bucket name used by media-service."
+  type        = string
+  default     = null
 }

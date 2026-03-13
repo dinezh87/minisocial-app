@@ -56,9 +56,9 @@ metadata:
   name: media-service-config
 data:
   PORT: "8080"
-  STORAGE_TYPE: "local"
-  STORAGE_PATH: "/app/media"
-  MEDIA_PUBLIC_BASE_URL: "https://media.minisocial.example.com"
+  STORAGE_TYPE: "s3"
+  AWS_REGION: "us-east-1"
+  S3_BUCKET: "REPLACE_WITH_MEDIA_BUCKET"
 ---
 apiVersion: v1
 kind: ConfigMap

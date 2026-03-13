@@ -23,4 +23,5 @@ rds_skip_final_snapshot = true
 deploy_mongodb_incluster = true
 deploy_mysql_incluster   = true
 deploy_redis_incluster   = true
-media_storage_mode      = "pvc"
+media_storage_mode       = "s3"
+media_bucket_name        = "minisocial-staging-media"

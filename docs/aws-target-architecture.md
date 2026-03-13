@@ -49,15 +49,14 @@ Run inside EKS as StatefulSets for phase 1:
 
 ### Media Storage
 
-Phase 1:
+Staging and production:
 
-- `media-service` runs with a PersistentVolumeClaim
-- Replica count stays at `1`
+- `media-service` uses Amazon S3
+- access is granted through IRSA
 
-Later improvement:
+Local development:
 
-- move media storage to S3
-- make `media-service` horizontally scalable
+- `media-service` may continue to use filesystem storage
 
 ## Ingress and Exposure Model
 
@@ -96,7 +95,7 @@ These are intentionally conservative to fit a first EKS rollout:
 - `frontend`: Deployment + Service + Ingress
 - `auth-service`: Deployment + Service, connects to RDS PostgreSQL
 - `post-service`: Deployment + Service, connects to in-cluster MongoDB
-- `media-service`: Deployment + Service + PVC
+- `media-service`: Deployment + Service + S3-backed object storage
 - `user-service`: Deployment + Service, connects to in-cluster MySQL
 - `feed-service`: Deployment + Service, connects to in-cluster Redis
 - `notification-service`: Deployment + Service, connects to in-cluster Redis

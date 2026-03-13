@@ -11,4 +11,4 @@ Use them as the baseline when creating your real `terraform.tfvars` files.
 - MongoDB, MySQL, and Redis stay in-cluster as StatefulSets
 - EKS worker nodes should be ARM64-compatible
 - production starts with a single NAT Gateway to control cost
-- `media-service` uses a PVC in phase 1
+- `media-service` uses S3 in both staging and production

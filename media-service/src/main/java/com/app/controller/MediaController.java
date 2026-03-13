@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -47,6 +48,14 @@ public class MediaController {
 
     @GetMapping("/{filename}")
     public ResponseEntity<Resource> getMedia(@PathVariable String filename) throws Exception {
+        String storageType = System.getenv("STORAGE_TYPE");
+
+        if ("s3".equalsIgnoreCase(storageType) && s3Storage != null) {
+            return ResponseEntity.status(302)
+                    .header(HttpHeaders.LOCATION, s3Storage.resolveUrl(filename))
+                    .build();
+        }
+
         Path filePath = Paths.get(uploadDir).resolve(filename);
         Resource resource = new UrlResource(filePath.toUri());
 
