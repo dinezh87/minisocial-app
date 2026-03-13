@@ -22,5 +22,7 @@ This base set defines the phase-1 MiniSocial deployment for EKS.
 - `media-service-config` must be patched with the real S3 bucket name
 - the `media-service` service account must be patched with the Terraform output
   for the media-service IRSA role ARN
+- secrets should be overridden per environment from the overlays instead of
+  editing the shared base file directly
 - MongoDB, MySQL, and Redis are intentionally in-cluster for phase 1 to match
   the agreed architecture

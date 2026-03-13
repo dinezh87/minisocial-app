@@ -1,6 +1,6 @@
-clusterName: REPLACE_WITH_CLUSTER_NAME
+clusterName: minisocial-staging
 region: us-east-1
-vpcId: REPLACE_WITH_VPC_ID
+vpcId: vpc-0506761377d3ed13e
 
 serviceAccount:
   create: false

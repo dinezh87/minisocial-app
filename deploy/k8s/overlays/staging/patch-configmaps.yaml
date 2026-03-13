@@ -3,7 +3,7 @@ kind: ConfigMap
 metadata:
   name: auth-service-config
 data:
-  DB_HOST: "minisocial-staging-auth-db.example.us-east-1.rds.amazonaws.com"
+  DB_HOST: "minisocial-staging-auth-db.cwj2cmmgszdj.us-east-1.rds.amazonaws.com"
 ---
 apiVersion: v1
 kind: ConfigMap
