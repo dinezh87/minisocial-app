@@ -4,6 +4,8 @@ metadata:
   name: auth-service-config
 data:
   DB_HOST: "minisocial-staging-auth-db.cwj2cmmgszdj.us-east-1.rds.amazonaws.com"
+  DB_SSL: "true"
+  DB_SSL_REJECT_UNAUTHORIZED: "false"
 ---
 apiVersion: v1
 kind: ConfigMap

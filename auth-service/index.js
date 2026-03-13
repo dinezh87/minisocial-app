@@ -6,6 +6,14 @@ const {Pool} = require("pg")
 const app = express()
 app.use(express.json())
 
+function parseBoolean(value, defaultValue = false) {
+  if (value === undefined) {
+    return defaultValue
+  }
+
+  return ["1", "true", "yes", "on"].includes(String(value).toLowerCase())
+}
+
 // Enable CORS
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
@@ -22,7 +30,10 @@ const db = new Pool({
  port: process.env.DB_PORT || 5432,
  user: process.env.DB_USER || "postgres",
  password: process.env.DB_PASSWORD,
- database: process.env.DB_NAME || "authdb"
+ database: process.env.DB_NAME || "authdb",
+ ssl: parseBoolean(process.env.DB_SSL, false)
+  ? {rejectUnauthorized: parseBoolean(process.env.DB_SSL_REJECT_UNAUTHORIZED, false)}
+  : false
 })
 
 async function ensureUserProfileColumns() {

@@ -8,6 +8,8 @@ data:
   DB_PORT: "5432"
   DB_NAME: "authdb"
   DB_USER: "postgres"
+  DB_SSL: "false"
+  DB_SSL_REJECT_UNAUTHORIZED: "false"
 ---
 apiVersion: v1
 kind: ConfigMap
