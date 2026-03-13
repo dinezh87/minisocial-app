@@ -2,37 +2,11 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
 import axios from "axios";
 import { getThemeForDate } from "./themes";
 
-function deriveApiUrl(explicitUrl, serviceName, localhostPort) {
-  if (explicitUrl) {
-    return explicitUrl;
-  }
-
-  if (typeof window === "undefined") {
-    return `http://localhost:${localhostPort}`;
-  }
-
-  const { protocol, hostname } = window.location;
-
-  if (hostname === "localhost" || hostname === "127.0.0.1") {
-    return `http://localhost:${localhostPort}`;
-  }
-
-  if (hostname.startsWith("app-")) {
-    return `${protocol}//${hostname.replace(/^app-/, `${serviceName}-`)}`;
-  }
-
-  if (hostname.startsWith("app.")) {
-    return `${protocol}//${hostname.replace(/^app\./, `${serviceName}.`)}`;
-  }
-
-  return `http://localhost:${localhostPort}`;
-}
-
-const AUTH_API = deriveApiUrl(process.env.REACT_APP_AUTH_URL, "auth", 3000);
-const POST_API = deriveApiUrl(process.env.REACT_APP_POST_URL, "post", 8000);
-const MEDIA_API = deriveApiUrl(process.env.REACT_APP_MEDIA_URL, "media", 8081);
-const FEED_API = deriveApiUrl(process.env.REACT_APP_FEED_URL, "feed", 8083);
-const NOTIFICATION_API = deriveApiUrl(process.env.REACT_APP_NOTIFICATION_URL, "notification", 8090);
+const AUTH_API = "/api/auth";
+const POST_API = "/api/post";
+const MEDIA_API = "/api/media";
+const FEED_API = "/api/feed";
+const NOTIFICATION_API = "/api/notification";
 
 function App() {
   const [user, setUser] = useState(null);
