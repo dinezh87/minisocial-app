@@ -1,0 +1,68 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: auth-service-config
+data:
+  PORT: "3000"
+  DB_HOST: "REPLACE_WITH_RDS_ENDPOINT"
+  DB_PORT: "5432"
+  DB_NAME: "authdb"
+  DB_USER: "postgres"
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: post-service-config
+data:
+  PORT: "8000"
+  MONGO_HOST: "mongo"
+  MONGO_PORT: "27017"
+  MONGO_DB: "posts"
+  NOTIFICATION_SERVICE_URL: "http://notification-service:8090"
+  AUTH_SERVICE_URL: "http://auth-service:3000"
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: user-service-config
+data:
+  PORT: "8080"
+  MYSQL_HOST: "mysql"
+  MYSQL_PORT: "3306"
+  MYSQL_DB: "users"
+  MYSQL_USER: "root"
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: feed-service-config
+data:
+  PORT: "8080"
+  REDIS_HOST: "redis"
+  REDIS_PORT: "6379"
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: notification-service-config
+data:
+  PORT: "8090"
+  REDIS_HOST: "redis"
+  REDIS_PORT: "6379"
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: media-service-config
+data:
+  PORT: "8080"
+  STORAGE_TYPE: "local"
+  STORAGE_PATH: "/app/media"
+  MEDIA_PUBLIC_BASE_URL: "https://media.minisocial.example.com"
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mysql-config
+data:
+  MYSQL_DATABASE: "users"

@@ -1,0 +1,9 @@
+clusterName: REPLACE_WITH_CLUSTER_NAME
+region: us-east-1
+vpcId: REPLACE_WITH_VPC_ID
+
+serviceAccount:
+  create: false
+  name: aws-load-balancer-controller
+
+replicaCount: 1

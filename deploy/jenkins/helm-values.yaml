@@ -1,0 +1,67 @@
+controller:
+  serviceType: ClusterIP
+
+  serviceAccount:
+    create: false
+    name: jenkins
+
+  ingress:
+    enabled: true
+    ingressClassName: alb
+    annotations:
+      alb.ingress.kubernetes.io/scheme: internet-facing
+      alb.ingress.kubernetes.io/target-type: ip
+    hostName: jenkins.minisocial.example.com
+
+  resources:
+    requests:
+      cpu: "500m"
+      memory: "1Gi"
+    limits:
+      cpu: "1000m"
+      memory: "2Gi"
+
+  nodeSelector:
+    kubernetes.io/arch: arm64
+
+  persistence:
+    enabled: true
+    size: 20Gi
+
+  installPlugins:
+    - kubernetes:4306.vc91e951ea_eb_d
+    - workflow-aggregator:596.v8c21c963d92d
+    - git:5.2.1
+    - github:1.39.0
+    - credentials-binding:642.v737c34dea_6c2
+    - configuration-as-code:1775.v810dc950b_514
+
+agent:
+  enabled: true
+  defaultsProviderTemplate: ""
+  nodeSelector:
+    kubernetes.io/arch: arm64
+
+  podTemplates:
+    kaniko: |
+      - name: kaniko
+        namespace: jenkins
+        label: kaniko
+        serviceAccount: jenkins
+        nodeSelector:
+          kubernetes.io/arch: arm64
+        containers:
+          - name: kaniko
+            image: gcr.io/kaniko-project/executor:latest
+            command: ["/busybox/cat"]
+            ttyEnabled: true
+            volumeMounts:
+              - name: docker-config
+                mountPath: /kaniko/.docker
+          - name: git
+            image: alpine/git:2.45.2
+            command: ["/bin/sh", "-c", "cat"]
+            ttyEnabled: true
+        volumes:
+          - name: docker-config
+            emptyDir: {}

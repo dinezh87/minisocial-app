@@ -1,0 +1,22 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: minisocial
+  namespace: argocd
+spec:
+  description: MiniSocial GitOps project
+  sourceRepos:
+    - REPLACE_WITH_GITOPS_REPO_URL
+  destinations:
+    - namespace: minisocial
+      server: https://kubernetes.default.svc
+    - namespace: argocd
+      server: https://kubernetes.default.svc
+    - namespace: kube-system
+      server: https://kubernetes.default.svc
+  clusterResourceWhitelist:
+    - group: "*"
+      kind: "*"
+  namespaceResourceWhitelist:
+    - group: "*"
+      kind: "*"

@@ -1,0 +1,78 @@
+pipeline {
+  agent none
+
+  environment {
+    AWS_REGION = 'us-east-1'
+    GITOPS_BRANCH = 'main'
+    GITOPS_ENV = 'staging'
+    IMAGE_TAG = "${env.BUILD_NUMBER}"
+    APP_REPO_URL = 'REPLACE_WITH_APP_REPO_URL'
+    GITOPS_REPO_URL = 'REPLACE_WITH_GITOPS_REPO_URL'
+    ECR_FRONTEND = 'REPLACE_WITH_ECR_FRONTEND'
+    ECR_AUTH = 'REPLACE_WITH_ECR_AUTH'
+    ECR_POST = 'REPLACE_WITH_ECR_POST'
+    ECR_MEDIA = 'REPLACE_WITH_ECR_MEDIA'
+    ECR_USER = 'REPLACE_WITH_ECR_USER'
+    ECR_FEED = 'REPLACE_WITH_ECR_FEED'
+    ECR_NOTIFICATION = 'REPLACE_WITH_ECR_NOTIFICATION'
+  }
+
+  stages {
+    stage('Checkout') {
+      agent { label 'kaniko' }
+      steps {
+        container('git') {
+          checkout scm
+        }
+      }
+    }
+
+    stage('Build and Push Images') {
+      agent { label 'kaniko' }
+      steps {
+        container('kaniko') {
+          sh '''
+            /kaniko/executor --context "${WORKSPACE}/auth-service" --dockerfile "${WORKSPACE}/auth-service/Dockerfile" --destination "${ECR_AUTH}:${IMAGE_TAG}"
+            /kaniko/executor --context "${WORKSPACE}/post-service" --dockerfile "${WORKSPACE}/post-service/Dockerfile" --destination "${ECR_POST}:${IMAGE_TAG}"
+            /kaniko/executor --context "${WORKSPACE}/media-service" --dockerfile "${WORKSPACE}/media-service/Dockerfile" --destination "${ECR_MEDIA}:${IMAGE_TAG}"
+            /kaniko/executor --context "${WORKSPACE}/user-service" --dockerfile "${WORKSPACE}/user-service/Dockerfile" --destination "${ECR_USER}:${IMAGE_TAG}"
+            /kaniko/executor --context "${WORKSPACE}/feed-service" --dockerfile "${WORKSPACE}/feed-service/Dockerfile" --destination "${ECR_FEED}:${IMAGE_TAG}"
+            /kaniko/executor --context "${WORKSPACE}/notification-service" --dockerfile "${WORKSPACE}/notification-service/Dockerfile" --destination "${ECR_NOTIFICATION}:${IMAGE_TAG}"
+            /kaniko/executor \
+              --context "${WORKSPACE}/frontend" \
+              --dockerfile "${WORKSPACE}/frontend/Dockerfile" \
+              --build-arg REACT_APP_AUTH_URL=https://auth-${GITOPS_ENV}.minisocial.example.com \
+              --build-arg REACT_APP_POST_URL=https://post-${GITOPS_ENV}.minisocial.example.com \
+              --build-arg REACT_APP_MEDIA_URL=https://media-${GITOPS_ENV}.minisocial.example.com \
+              --build-arg REACT_APP_USER_URL=https://user-${GITOPS_ENV}.minisocial.example.com \
+              --build-arg REACT_APP_FEED_URL=https://feed-${GITOPS_ENV}.minisocial.example.com \
+              --build-arg REACT_APP_NOTIFICATION_URL=https://notification-${GITOPS_ENV}.minisocial.example.com \
+              --destination "${ECR_FRONTEND}:${IMAGE_TAG}"
+          '''
+        }
+      }
+    }
+
+    stage('Update GitOps Repo') {
+      agent { label 'kaniko' }
+      steps {
+        withCredentials([usernamePassword(credentialsId: 'github-http-creds', usernameVariable: 'GIT_USERNAME', passwordVariable: 'GIT_PASSWORD')]) {
+          container('git') {
+            sh '''
+              git clone "https://${GIT_USERNAME}:${GIT_PASSWORD}@${GITOPS_REPO_URL#https://}" gitops-repo
+              cd gitops-repo
+              git checkout "${GITOPS_BRANCH}"
+              "${WORKSPACE}/deploy/jenkins/update_gitops_images.sh" "${GITOPS_ENV}" "${IMAGE_TAG}" \
+                "${ECR_FRONTEND}" "${ECR_AUTH}" "${ECR_POST}" "${ECR_MEDIA}" "${ECR_USER}" "${ECR_FEED}" "${ECR_NOTIFICATION}"
+              git config user.name "jenkins"
+              git config user.email "jenkins@minisocial.local"
+              git add .
+              git commit -m "ci: promote ${GITOPS_ENV} images to ${IMAGE_TAG}" || true
+              git push origin "${GITOPS_BRANCH}"
+            '''
+          }
+        }
+      }
+    }
+  }
+}

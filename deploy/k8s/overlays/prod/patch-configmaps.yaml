@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: auth-service-config
+data:
+  DB_HOST: "minisocial-prod-auth-db.example.us-east-1.rds.amazonaws.com"
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: media-service-config
+data:
+  MEDIA_PUBLIC_BASE_URL: "https://media.minisocial.example.com"

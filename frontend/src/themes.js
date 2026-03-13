@@ -1,0 +1,66 @@
+export const dayTheme = {
+  mode: "day",
+  name: "Daylight",
+  accent: "#f97316",
+  accentSoft: "#fed7aa",
+  accentStrong: "#ea580c",
+  accentAlt: "#0f766e",
+  text: "#132238",
+  textMuted: "#526277",
+  pageBackground:
+    "radial-gradient(circle at top left, rgba(255, 208, 122, 0.45), transparent 28%), radial-gradient(circle at top right, rgba(115, 195, 255, 0.35), transparent 32%), linear-gradient(180deg, #fff6dc 0%, #f5f8ff 42%, #eef4f8 100%)",
+  shellBackground: "rgba(255, 252, 245, 0.68)",
+  shellBorder: "rgba(255, 255, 255, 0.72)",
+  topBar: "rgba(255, 251, 242, 0.82)",
+  topBarBorder: "rgba(243, 198, 132, 0.35)",
+  card: "rgba(255, 255, 255, 0.86)",
+  cardBorder: "rgba(243, 198, 132, 0.22)",
+  cardShadow: "0 22px 50px rgba(237, 157, 73, 0.12)",
+  input: "rgba(255, 255, 255, 0.96)",
+  inputBorder: "#d8dfeb",
+  inputFocus: "#f97316",
+  subtleSurface: "rgba(246, 248, 252, 0.9)",
+  successBg: "#ecfdf3",
+  successText: "#166534",
+  errorBg: "#fff1f2",
+  errorText: "#be123c",
+  divider: "rgba(141, 157, 180, 0.22)",
+  glow: "rgba(249, 115, 22, 0.22)",
+  badge: "rgba(255, 244, 231, 0.95)",
+};
+
+export const nightTheme = {
+  mode: "night",
+  name: "After Hours",
+  accent: "#38bdf8",
+  accentSoft: "#0f2c44",
+  accentStrong: "#0ea5e9",
+  accentAlt: "#a78bfa",
+  text: "#eef4ff",
+  textMuted: "#9fb0c9",
+  pageBackground:
+    "radial-gradient(circle at top left, rgba(56, 189, 248, 0.18), transparent 24%), radial-gradient(circle at top right, rgba(167, 139, 250, 0.16), transparent 28%), linear-gradient(180deg, #07111f 0%, #091827 48%, #0d1829 100%)",
+  shellBackground: "rgba(8, 18, 34, 0.62)",
+  shellBorder: "rgba(125, 156, 202, 0.16)",
+  topBar: "rgba(8, 18, 34, 0.84)",
+  topBarBorder: "rgba(103, 132, 180, 0.2)",
+  card: "rgba(10, 22, 40, 0.78)",
+  cardBorder: "rgba(125, 156, 202, 0.12)",
+  cardShadow: "0 24px 60px rgba(2, 8, 23, 0.42)",
+  input: "rgba(7, 16, 31, 0.82)",
+  inputBorder: "#28415f",
+  inputFocus: "#38bdf8",
+  subtleSurface: "rgba(17, 33, 56, 0.92)",
+  successBg: "#0f2d21",
+  successText: "#86efac",
+  errorBg: "#3a1722",
+  errorText: "#fda4af",
+  divider: "rgba(125, 156, 202, 0.16)",
+  glow: "rgba(56, 189, 248, 0.18)",
+  badge: "rgba(13, 26, 48, 0.9)",
+};
+
+export function getThemeForDate(date = new Date()) {
+  const hour = date.getHours();
+  return hour >= 6 && hour < 18 ? dayTheme : nightTheme;
+}

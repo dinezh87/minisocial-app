@@ -1,0 +1,28 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - REPLACE_WITH_APP_REPO_KUSTOMIZE_BASE_STAGING
+
+images:
+  - name: frontend
+    newName: REPLACE_WITH_ECR_FRONTEND
+    newTag: latest
+  - name: auth-service
+    newName: REPLACE_WITH_ECR_AUTH
+    newTag: latest
+  - name: post-service
+    newName: REPLACE_WITH_ECR_POST
+    newTag: latest
+  - name: media-service
+    newName: REPLACE_WITH_ECR_MEDIA
+    newTag: latest
+  - name: user-service
+    newName: REPLACE_WITH_ECR_USER
+    newTag: latest
+  - name: feed-service
+    newName: REPLACE_WITH_ECR_FEED
+    newTag: latest
+  - name: notification-service
+    newName: REPLACE_WITH_ECR_NOTIFICATION
+    newTag: latest
